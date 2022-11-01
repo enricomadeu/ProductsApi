@@ -36,12 +36,12 @@ namespace ProductsApi.Services
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "productsapi.services", Version = "v1" });
             });
-            //var connectionString = Configuration.GetConnectionString("Products");
-            //var serverVersion = new MySqlServerVersion(new Version(5, 0));
-            //services.AddDbContext<Context>(o => o.UseMySql(connectionString, serverVersion));
-            //DependencyInjector.Register(services);
-            //services.AddAutoMapper(x => x.AddProfile(new MappingEntity()));
-            //services.AddMvc(options => options.EnableEndpointRouting = false);
+            var connectionString = Configuration.GetConnectionString("Products");
+            var serverVersion = new MySqlServerVersion(new Version(5, 0));
+            services.AddDbContext<Context>(o => o.UseMySql(connectionString, serverVersion));
+            DependencyInjector.Register(services);
+            services.AddAutoMapper(x => x.AddProfile(new MappingEntity()));
+            services.AddMvc(options => options.EnableEndpointRouting = false);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,15 +56,15 @@ namespace ProductsApi.Services
 
             app.UseRouting();
 
-            //app.UseAuthorization();
+            app.UseAuthorization();
 
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllers();
-            //});
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
-            //app.UseCors(a => a.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
-            //app.UseMvc();
+            app.UseCors(a => a.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+            app.UseMvc();
         }
     }
 }
